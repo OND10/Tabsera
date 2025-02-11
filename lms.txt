@@ -1118,3 +1118,130 @@ Final Thoughts:
 While the Assignment model itself does not have a course_id, it is still indirectly related to a course through the StudyPlanCourseInstructor model. By using the relationships between the models, we can filter assignments based on the course the student is enrolled in.
 
 Let me know if this clears up your confusion, or if you'd like further clarification!
+
+
+
+Yes, the `AccessToken` class from **Django REST Framework Simple JWT** performs all necessary validations on the JWT token, such as checking its expiration date (`exp` claim), signature, and other claims like issuer (`iss`) or audience (`aud`) if configured. If the token is invalid, expired, or tampered with, an exception will be raised.
+
+Let me demonstrate how to split this logic into **views** and **services** for better modularity. The view will handle HTTP requests, while the service will contain the logic for token validation.
+
+---
+
+### **Service Layer**
+
+Create a `services.py` file (if you don’t already have one):
+
+```python
+# services.py
+from rest_framework_simplejwt.tokens import AccessToken
+from rest_framework.exceptions import AuthenticationFailed
+
+def validate_access_token(token):
+    """
+    Validate the provided access token.
+
+    Args:
+        token (str): The JWT access token.
+
+    Returns:
+        int: The user_id extracted from the token payload if valid.
+
+    Raises:
+        AuthenticationFailed: If the token is invalid or expired.
+    """
+    try:
+        # Parse and validate the token using AccessToken
+        access_token = AccessToken(token)
+
+        # Check if the token is expired, malformed, or invalid
+        # If invalid, AccessToken raises an exception internally
+
+        # Extract and return user_id or any other claims from the payload
+        user_id = access_token['user_id']
+        return user_id
+    except Exception as e:
+        raise AuthenticationFailed(f"Invalid token: {str(e)}")
+```
+
+---
+
+### **View Layer**
+
+Now, use the `validate_access_token` function from the service layer in a view. For instance, you might want to create an endpoint to validate tokens and return the `user_id` if the token is valid.
+
+```python
+# views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.permissions import AllowAny
+from .services import validate_access_token
+
+class ValidateTokenAPIView(APIView):
+    """
+    View to validate an access token and return user_id if valid.
+    """
+    permission_classes = [AllowAny]  # No authentication required to access this endpoint
+
+    def post(self, request):
+        # Get the token from the request data
+        token = request.data.get("token")
+
+        if not token:
+            return Response({"error": "Token is required"}, status=400)
+
+        try:
+            # Use the service to validate the token
+            user_id = validate_access_token(token)
+            return Response({"message": "Token is valid", "user_id": user_id}, status=200)
+        except AuthenticationFailed as e:
+            return Response({"error": str(e)}, status=401)
+```
+
+---
+
+### **How `AccessToken` Validates the Token**
+When you call `AccessToken(token)`, the following checks happen automatically:
+1. **Decoding the Token**: The `AccessToken` attempts to decode the provided token using the secret key in your `settings.py` (`SECRET_KEY` or the `SIGNING_KEY` from the `SIMPLE_JWT` configuration).
+2. **Expiration Validation**: It checks the `exp` (expiration) claim of the token. If the token has expired, it raises a `TokenError`.
+3. **Signature Validation**: It ensures that the token's signature matches the secret key, confirming that it hasn’t been tampered with.
+4. **Issuer and Audience (Optional)**: If you configure `SIMPLE_JWT` with `ISSUER` or `AUDIENCE`, it checks those claims.
+
+If any of these validations fail, an exception is raised.
+
+---
+
+### Example of How to Call This API
+1. **POST Request**:
+   - URL: `/api/validate-token/`
+   - Body: 
+     ```json
+     {
+       "token": "your_jwt_access_token_here"
+     }
+     ```
+
+2. **Responses**:
+   - **Success (200)**:
+     ```json
+     {
+       "message": "Token is valid",
+       "user_id": 123
+     }
+     ```
+   - **Failure (401)**:
+     ```json
+     {
+       "error": "Invalid token: Token has expired"
+     }
+     ```
+
+---
+
+### Notes:
+- If you want to further check against a **blacklist** or any custom logic (e.g., checking if the user is active), you can extend the service logic.
+- Use this service wherever token validation is required, such as in logout functionality or custom permission checks.
+
+Would you like help integrating this into a specific use case?
+
+
