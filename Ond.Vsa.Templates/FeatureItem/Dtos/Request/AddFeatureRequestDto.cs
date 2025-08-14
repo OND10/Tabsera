@@ -2,6 +2,7 @@ namespace VsaProject.Api.Features.Feature.Dtos.Request;
 
 public class AddFeatureRequestDto
 {
-    public string Email { get; set; } = default!;
-    public string FullName { get; set; } = default!;
+    public string Name { get; set; } = default!;
+    public string Description { get; set; } = default!;
+    public bool IsActive { get; set; } = true;
 }

@@ -2,8 +2,8 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "OND",
   "classifications": ["Feature", "VerticalSlice"],
-  "name": "Clean VSA Feature",
-  "identity": "Ond.Vsa.Feature.Final",
+  "name": "Complete VSA Feature",
+  "identity": "Ond.Vsa.Feature.Complete",
   "shortName": "cleanfeature",
   "tags": { "language": "C#", "type": "item" },
   "sourceName": "Feature",
@@ -32,7 +32,8 @@
         { "file": "Dtos/Request/UpdateFeatureRequestDto.cs", "renameTo": "Dtos/Request/Update{{FeatureName}}RequestDto.cs" },
         { "file": "Dtos/Response/FeatureResponseDto.cs", "renameTo": "Dtos/Response/{{FeatureName}}ResponseDto.cs" },
         { "file": "Requests/CreateFeature/CreateFeatureCommand.cs", "renameTo": "Requests/Create{{FeatureName}}/Create{{FeatureName}}Command.cs" },
-        { "file": "Requests/CreateFeature/CreateFeatureCommandHandler.cs", "renameTo": "Requests/Create{{FeatureName}}/Create{{FeatureName}}CommandHandler.cs" }
+        { "file": "Requests/CreateFeature/CreateFeatureCommandHandler.cs", "renameTo": "Requests/Create{{FeatureName}}/Create{{FeatureName}}CommandHandler.cs" },
+        { "file": "SETUP_INSTRUCTIONS.md", "renameTo": "SETUP_{{FeatureName}}_INSTRUCTIONS.md" }
       ]
     }
   ]

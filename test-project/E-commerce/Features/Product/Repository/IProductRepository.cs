@@ -4,7 +4,9 @@ namespace VsaProject.Api.Products.Product.Repository;
 
 public interface IProductRepository
 {
-    Task<User> AddAsync(User user, CancellationToken ct = default);
-    Task<User?> GetByIdAsync(Guid id, CancellationToken ct = default);
-    Task<User> UpdateAsync(User user, CancellationToken ct = default);
+    Task<Product> AddAsync(Product product, CancellationToken ct = default);
+    Task<Product?> GetByIdAsync(Guid id, CancellationToken ct = default);
+    Task<Product> UpdateAsync(Product product, CancellationToken ct = default);
+    Task<IEnumerable<Product>> GetAllAsync(CancellationToken ct = default);
+    Task<bool> DeleteAsync(Guid id, CancellationToken ct = default);
 }

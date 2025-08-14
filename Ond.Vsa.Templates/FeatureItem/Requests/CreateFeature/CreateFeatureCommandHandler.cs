@@ -1,30 +1,42 @@
-using VsaProject.Api.Abstractions.Messaging;
 using VsaProject.Api.Common.Handler;
-using VsaProject.Api.Common.Validations;
 using VsaProject.Api.Data.Entities;
 using VsaProject.Api.Features.Feature.Dtos.Response;
 using VsaProject.Api.Features.Feature.Repository;
 
 namespace VsaProject.Api.Features.Feature.Requests.CreateFeature;
 
-public class CreateFeatureCommandHandler(IFeatureRepository repo)
-    : ICommandHandler<CreateFeatureCommand, Result<FeatureResponseDto>>
+public class CreateFeatureCommandHandler(IFeatureRepository repository) : ICommandHandler<CreateFeatureCommand, Result<FeatureResponseDto>>
 {
-    public async Task<Result<FeatureResponseDto>> Handle(CreateFeatureCommand command, CancellationToken ct = default)
+    public async Task<Result<FeatureResponseDto>> Handle(CreateFeatureCommand request, CancellationToken cancellationToken)
     {
-        command.Dto.Email.ThrowIfNullOrEmpty("Email");
-        command.Dto.FullName.ThrowIfNullOrEmpty("FullName");
-
-        var entity = new User { Email = command.Dto.Email, FullName = command.Dto.FullName };
-        entity = await repo.AddAsync(entity, ct);
-
-        var response = new FeatureResponseDto
+        try
         {
-            Id = entity.Id,
-            Email = entity.Email,
-            FullName = entity.FullName
-        };
+            var feature = new Data.Entities.Feature
+            {
+                Id = Guid.NewGuid(),
+                Name = request.Request.Name,
+                Description = request.Request.Description,
+                IsActive = request.Request.IsActive,
+                CreatedAt = DateTime.UtcNow
+            };
 
-        return await Result<FeatureResponseDto>.SuccessAsync(response, "Feature is created successfully", true);
+            var createdFeature = await repository.AddAsync(feature, cancellationToken);
+
+            var response = new FeatureResponseDto
+            {
+                Id = createdFeature.Id,
+                Name = createdFeature.Name,
+                Description = createdFeature.Description,
+                CreatedAt = createdFeature.CreatedAt,
+                UpdatedAt = createdFeature.UpdatedAt,
+                IsActive = createdFeature.IsActive
+            };
+
+            return Result<FeatureResponseDto>.Success(response);
+        }
+        catch (Exception ex)
+        {
+            return Result<FeatureResponseDto>.Failure($"Failed to create feature: {ex.Message}");
+        }
     }
 }
