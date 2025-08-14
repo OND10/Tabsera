@@ -1,6 +1,6 @@
-namespace VsaProject.Api.Users.User.Dtos.Response;
+namespace VsaProject.Api.Products.Product.Dtos.Response;
 
-public class UserResponseDto
+public class ProductResponseDto
 {
     public Guid Id { get; set; }
     public string Email { get; set; } = default!;

@@ -1,8 +1,8 @@
 using VsaProject.Api.Data.Entities;
 
-namespace VsaProject.Api.Orders.Order.Repository;
+namespace VsaProject.Api.Products.Product.Repository;
 
-public interface IOrderRepository
+public interface IProductRepository
 {
     Task<User> AddAsync(User user, CancellationToken ct = default);
     Task<User?> GetByIdAsync(Guid id, CancellationToken ct = default);
