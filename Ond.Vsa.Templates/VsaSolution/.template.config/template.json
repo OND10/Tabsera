@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "OND",
+  "classifications": [ "Vertical Slice", "API" ],
+  "identity": "Ond.Vsa.Solution",
+  "name": "OND Vertical Slice API",
+  "shortName": "vsa",
+  "tags": { "language": "C#", "type": "project" },
+  "sourceName": "VsaProject",
+  "preferNameDirectory": true,
+  "primaryOutputs": [
+    { "path": "VsaProject.Api/VsaProject.Api.csproj" }
+  ],
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "exclude": [
+            "**/bin/**",
+            "**/obj/**",
+            ".vs/**",
+            "**/*.user",
+            "**/*.suo",
+            "**/*.vscode/**"
+          ]
+        }
+      ]
+    }
+  ]
+}
