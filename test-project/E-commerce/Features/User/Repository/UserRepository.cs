@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using VsaProject.Api.Data;
 using VsaProject.Api.Data.Entities;
 
-namespace VsaProject.Api.Products.Product.Repository;
+namespace VsaProject.Api.Users.User.Repository;
 
-public class ProductRepository(AppDbContext db) : IProductRepository
+public class UserRepository(AppDbContext db) : IUserRepository
 {
     public async Task<User> AddAsync(User user, CancellationToken ct = default)
     {

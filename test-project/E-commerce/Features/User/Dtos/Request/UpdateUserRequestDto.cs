@@ -1,6 +1,6 @@
-namespace VsaProject.Api.Products.Product.Dtos.Request;
+namespace VsaProject.Api.Users.User.Dtos.Request;
 
-public class UpdateProductRequestDto
+public class UpdateUserRequestDto
 {
     public Guid Id { get; set; }
     public string? Email { get; set; }

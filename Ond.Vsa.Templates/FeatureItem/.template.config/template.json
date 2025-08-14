@@ -7,11 +7,12 @@
   "shortName": "feature",
   "tags": { "language": "C#", "type": "item" },
   "sourceName": "Feature",
+  "preferNameDirectory": false,
   "symbols": {
     "FeatureName": {
       "type": "parameter",
       "datatype": "text",
-      "description": "The name of the feature",
+      "description": "The name of the feature to create",
       "defaultValue": "Feature",
       "replaces": "Feature"
     }
@@ -19,7 +20,12 @@
   "sources": [
     {
       "source": "./",
-      "target": "Features/{{FeatureName}}",
+      "target": "./",
+      "exclude": [
+        "**/bin/**",
+        "**/obj/**",
+        "**/.template.config/**"
+      ],
       "rename": [
         { "file": "FeatureController.cs", "renameTo": "{{FeatureName}}Controller.cs" },
         { "file": "Repository/IFeatureRepository.cs", "renameTo": "Repository/I{{FeatureName}}Repository.cs" },
@@ -31,8 +37,5 @@
         { "file": "Requests/CreateFeature/CreateFeatureCommandHandler.cs", "renameTo": "Requests/Create{{FeatureName}}/Create{{FeatureName}}CommandHandler.cs" }
       ]
     }
-  ],
-  "primaryOutputs": [
-    { "path": "Features/{{FeatureName}}" }
   ]
 }

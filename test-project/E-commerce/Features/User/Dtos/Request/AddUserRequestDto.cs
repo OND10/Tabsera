@@ -1,6 +1,6 @@
-namespace VsaProject.Api.Products.Product.Dtos.Request;
+namespace VsaProject.Api.Users.User.Dtos.Request;
 
-public class AddProductRequestDto
+public class AddUserRequestDto
 {
     public string Email { get; set; } = default!;
     public string FullName { get; set; } = default!;
