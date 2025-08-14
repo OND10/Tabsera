@@ -89,11 +89,11 @@ dotnet ef database update
 
 Your Product is now ready! You can test the following endpoints:
 
-- `POST /api/Product` - Create a new product
-- `GET /api/Product` - Get all products  
-- `GET /api/Product/{id}` - Get product by ID
-- `PUT /api/Product/{id}` - Update a product
-- `DELETE /api/Product/{id}` - Delete a product
+- `POST /api/Product` - Create a new temp
+- `GET /api/Product` - Get all temps  
+- `GET /api/Product/{id}` - Get temp by ID
+- `PUT /api/Product/{id}` - Update a temp
+- `DELETE /api/Product/{id}` - Delete a temp
 
 ## Sample Request
 

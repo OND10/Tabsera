@@ -6,21 +6,21 @@ namespace VsaProject.Api.Products.Product.Repository;
 
 public class ProductRepository(AppDbContext db) : IProductRepository
 {
-    public async Task<Product> AddAsync(Product product, CancellationToken ct = default)
+    public async Task<Product> AddAsync(Product temp, CancellationToken ct = default)
     {
-        db.Products.Add(product);
+        db.Products.Add(temp);
         await db.SaveChangesAsync(ct);
-        return product;
+        return temp;
     }
 
     public Task<Product?> GetByIdAsync(Guid id, CancellationToken ct = default) =>
         db.Products.FirstOrDefaultAsync(f => f.Id == id, ct);
 
-    public async Task<Product> UpdateAsync(Product product, CancellationToken ct = default)
+    public async Task<Product> UpdateAsync(Product temp, CancellationToken ct = default)
     {
-        db.Products.Update(product);
+        db.Products.Update(temp);
         await db.SaveChangesAsync(ct);
-        return product;
+        return temp;
     }
 
     public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken ct = default) =>
@@ -28,11 +28,11 @@ public class ProductRepository(AppDbContext db) : IProductRepository
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken ct = default)
     {
-        var product = await GetByIdAsync(id, ct);
-        if (product == null) return false;
+        var temp = await GetByIdAsync(id, ct);
+        if (temp == null) return false;
         
-        product.IsActive = false;
-        product.UpdatedAt = DateTime.UtcNow;
+        temp.IsActive = false;
+        temp.UpdatedAt = DateTime.UtcNow;
         await db.SaveChangesAsync(ct);
         return true;
     }

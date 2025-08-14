@@ -22,18 +22,18 @@ public class ProductController(IProductRepository repository) : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductResponseDto>> GetById(Guid id, CancellationToken ct)
     {
-        var product = await repository.GetByIdAsync(id, ct);
-        if (product == null)
+        var temp = await repository.GetByIdAsync(id, ct);
+        if (temp == null)
             return NotFound($"Product with ID {id} not found.");
 
         var response = new ProductResponseDto
         {
-            Id = product.Id,
-            Name = product.Name,
-            Description = product.Description,
-            CreatedAt = product.CreatedAt,
-            UpdatedAt = product.UpdatedAt,
-            IsActive = product.IsActive
+            Id = temp.Id,
+            Name = temp.Name,
+            Description = temp.Description,
+            CreatedAt = temp.CreatedAt,
+            UpdatedAt = temp.UpdatedAt,
+            IsActive = temp.IsActive
         };
 
         return Ok(response);
@@ -42,8 +42,8 @@ public class ProductController(IProductRepository repository) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductResponseDto>>> GetAll(CancellationToken ct)
     {
-        var products = await repository.GetAllAsync(ct);
-        var response = products.Select(f => new ProductResponseDto
+        var temps = await repository.GetAllAsync(ct);
+        var response = temps.Select(f => new ProductResponseDto
         {
             Id = f.Id,
             Name = f.Name,

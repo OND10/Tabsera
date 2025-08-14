@@ -11,7 +11,7 @@ public class CreateProductCommandHandler(IProductRepository repository) : IComma
     {
         try
         {
-            var product = new Data.Entities.Product
+            var temp = new Data.Entities.Product
             {
                 Id = Guid.NewGuid(),
                 Name = request.Request.Name,
@@ -20,7 +20,7 @@ public class CreateProductCommandHandler(IProductRepository repository) : IComma
                 CreatedAt = DateTime.UtcNow
             };
 
-            var createdProduct = await repository.AddAsync(product, cancellationToken);
+            var createdProduct = await repository.AddAsync(temp, cancellationToken);
 
             var response = new ProductResponseDto
             {
@@ -36,7 +36,7 @@ public class CreateProductCommandHandler(IProductRepository repository) : IComma
         }
         catch (Exception ex)
         {
-            return Result<ProductResponseDto>.Failure($"Failed to create product: {ex.Message}");
+            return Result<ProductResponseDto>.Failure($"Failed to create temp: {ex.Message}");
         }
     }
 }
