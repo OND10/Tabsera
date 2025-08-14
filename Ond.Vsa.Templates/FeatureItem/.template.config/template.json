@@ -1,10 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "Your Name",
+  "author": "OND",
   "classifications": ["Feature", "VerticalSlice"],
-  "name": "Vertical Slice Feature",
-  "identity": "Ond.Vsa.FeatureItem",
-  "shortName": "feature",
+  "name": "Clean VSA Feature",
+  "identity": "Ond.Vsa.Feature.Final",
+  "shortName": "cleanfeature",
   "tags": { "language": "C#", "type": "item" },
   "sourceName": "Feature",
   "preferNameDirectory": false,
@@ -12,8 +12,8 @@
     "FeatureName": {
       "type": "parameter",
       "datatype": "text",
-      "description": "The name of the feature to create",
-      "defaultValue": "Feature",
+      "description": "The name of the feature",
+      "defaultValue": "MyFeature",
       "replaces": "Feature"
     }
   },
@@ -22,8 +22,6 @@
       "source": "./",
       "target": "./",
       "exclude": [
-        "**/bin/**",
-        "**/obj/**",
         "**/.template.config/**"
       ],
       "rename": [
