@@ -4,3 +4,4 @@ https://alertu.io/implementing-multi-tenancy-in-dotnet/
 https://github.com/hossainchisty/Income-Expense-Management.git
 https://github.com/ibishek/personal-finanace-system.git
 https://github.com/hardikSinghBehl/personal-finance-management-system.git
+https://chatgpt.com/share/68ea44c3-0134-8000-a9b1-6027f4203652
