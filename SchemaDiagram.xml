@@ -1,0 +1,145 @@
+<mxfile host="app.diagrams.net" modified="2026-02-10T00:00:00.000Z" agent="ChatGPT" version="22.1.0">
+  <diagram id="ERD" name="Dynamic Product ERD">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- TENANT -->
+        <mxCell id="tenant" value="Tenant&#10;PK TenantId (uuid)&#10;Name&#10;Status&#10;CreatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="260" height="140" as="geometry"/>
+        </mxCell>
+
+        <!-- PRODUCT TYPE -->
+        <mxCell id="ptype" value="ProductType&#10;PK ProductTypeId (uuid)&#10;FK TenantId&#10;Code (unique per tenant)&#10;Name&#10;Description&#10;Version&#10;Status&#10;CreatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="40" width="330" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- CATEGORY -->
+        <mxCell id="cat" value="Category&#10;PK CategoryId (uuid)&#10;FK TenantId&#10;ParentCategoryId (nullable)&#10;Code&#10;Name&#10;Path&#10;CreatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="760" y="40" width="300" height="190" as="geometry"/>
+        </mxCell>
+
+        <!-- PRODUCT TYPE CATEGORY (M:N) -->
+        <mxCell id="ptypecat" value="ProductTypeCategory&#10;PK (ProductTypeId, CategoryId)&#10;FK ProductTypeId&#10;FK CategoryId" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="70" width="320" height="120" as="geometry"/>
+        </mxCell>
+
+        <!-- ATTRIBUTE DEF -->
+        <mxCell id="attrdef" value="AttributeDefinition&#10;PK AttributeId (uuid)&#10;FK TenantId&#10;Code (unique per tenant)&#10;Name&#10;DataType (string/int/decimal/bool/date/json/ref)&#10;IsRequired&#10;IsSearchable&#10;IsIndexed&#10;IsMultiValue&#10;CreatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="260" width="340" height="240" as="geometry"/>
+        </mxCell>
+
+        <!-- ATTRIBUTE GROUP (OBJECT) -->
+        <mxCell id="attrgroup" value="AttributeGroup&#10;PK GroupId (uuid)&#10;FK TenantId&#10;Code&#10;Name&#10;Description&#10;CreatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="300" width="310" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- GROUP MEMBERS -->
+        <mxCell id="groupmember" value="AttributeGroupMember&#10;PK (GroupId, AttributeId)&#10;FK GroupId&#10;FK AttributeId&#10;SortOrder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="780" y="320" width="340" height="140" as="geometry"/>
+        </mxCell>
+
+        <!-- PRODUCT TYPE ATTRIBUTE -->
+        <mxCell id="ptypeattr" value="ProductTypeAttribute&#10;PK (ProductTypeId, AttributeId)&#10;FK ProductTypeId&#10;FK AttributeId&#10;IsRequiredOverride&#10;DefaultValue&#10;SortOrder" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="520" width="360" height="170" as="geometry"/>
+        </mxCell>
+
+        <!-- PRODUCT -->
+        <mxCell id="product" value="Product&#10;PK ProductId (uuid)&#10;FK TenantId&#10;FK ProductTypeId&#10;SKU/Code&#10;Name&#10;Status&#10;CreatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="780" y="520" width="320" height="180" as="geometry"/>
+        </mxCell>
+
+        <!-- PRODUCT ATTRIBUTE VALUE -->
+        <mxCell id="pav" value="ProductAttributeValue (EAV)&#10;PK ProductAttributeValueId (uuid)&#10;FK ProductId&#10;FK AttributeId&#10;ValueString&#10;ValueInt&#10;ValueDecimal&#10;ValueBool&#10;ValueDate&#10;ValueJson&#10;ValueRefId (uuid)&#10;CreatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="480" width="360" height="260" as="geometry"/>
+        </mxCell>
+
+        <!-- PRODUCT RELATIONSHIP -->
+        <mxCell id="prel" value="ProductRelationship&#10;PK RelationshipId (uuid)&#10;FK TenantId&#10;FromProductId&#10;ToProductId&#10;RelationType (1-1,1-N,N-N)&#10;RelationCode&#10;MetadataJson&#10;CreatedAt" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="780" y="740" width="390" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- WORKFLOW -->
+        <mxCell id="workflow" value="WorkflowDefinition&#10;PK WorkflowId (uuid)&#10;FK TenantId&#10;Code&#10;Name&#10;AppliesTo (ProductTypeId)&#10;DefinitionJson&#10;Version&#10;IsActive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="740" width="340" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- BUSINESS RULE -->
+        <mxCell id="rule" value="BusinessRule&#10;PK RuleId (uuid)&#10;FK TenantId&#10;AppliesTo (ProductTypeId/AttributeId)&#10;RuleType (validation/derivation/access)&#10;Expression&#10;Message&#10;IsActive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="420" y="740" width="330" height="200" as="geometry"/>
+        </mxCell>
+
+        <!-- RELATIONSHIPS (edges) -->
+        <mxCell id="e1" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="ptype" target="tenant">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e2" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="cat" target="tenant">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e3" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="ptypecat" target="ptype">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e4" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="ptypecat" target="cat">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e5" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="attrdef" target="tenant">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e6" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="attrgroup" target="tenant">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e7" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="groupmember" target="attrgroup">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e8" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="groupmember" target="attrdef">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e9" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="ptypeattr" target="ptype">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e10" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="ptypeattr" target="attrdef">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e11" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="product" target="tenant">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e12" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="product" target="ptype">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e13" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="pav" target="product">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e14" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="pav" target="attrdef">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e15" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="prel" target="product">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e16" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="workflow" target="tenant">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="e17" style="endArrow=block;html=1;rounded=0;strokeColor=#000000;" edge="1" parent="1" source="rule" target="tenant">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
